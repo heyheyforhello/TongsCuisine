@@ -10,7 +10,7 @@ export class LoginService {
   }
 
   validateLogin(user: User){
-    return this.http.post('/api/user/login',{
+    return this.http.post('/api/clinician/login',{
       username : user.username,
       password : user.password
     })
