@@ -35,7 +35,7 @@ app.get('/api/patient/', (req, res) => {
 });
 
 app.post('/api/clinician/login', (req, res) => {
-    mongoose.connect(url,{ useMongoClient:true}, function(err){
+    mongoose.connect(url, function(err){
         if(err) throw err;
         Clinician.find({
             username : req.body.username, password : req.body.password
@@ -51,11 +51,34 @@ app.post('/api/clinician/login', (req, res) => {
                     status: 'fail',
                     message: 'Login Failed'
                 })
-            }
-             
+            } 
         })
     });
 });
+
+app.post('/api/patient-details', (req, res) => {
+    mongoose.connect(url, function(err){
+        if(err) throw err;
+        //console.log(req.body.username);
+        Patient.find({
+            username : req.body.username
+        },function(err, patient){
+            if(err) throw err;
+            //console.log(patient);
+            if(patient.length ===1){
+                return res.status(200).json({
+                    status: 'success',
+                    data: patient
+                })
+            } else{
+                return res.status(200).json({
+                    status:'fail',
+                    message: 'Failed'
+                })
+            }
+        })
+    })
+})
 
 
 app.listen(3000, () => console.log('clinic server running on port 3000!'))
