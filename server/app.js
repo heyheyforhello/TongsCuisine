@@ -79,6 +79,56 @@ app.post('/api/patient-details', (req, res) => {
         })
     })
 })
+app.post('/api/add-attack',(req, res)=>{
+    mongoose.connect(url, function(err){
+        if(err) throw err;
+        Patient.findOneAndUpdate(
+            {username: req.body.username},
+            {$push: {attack: req.body.attack}},
+            function (error, success){
+                if (error) {
+                    console.log(error);
+                    return res.status(200).json({
+                        status: 'fail',
+                        data: patient
+                    })
+                } else{
+                    console.log(success);
+                    return res.status(200).json({
+                        status:'success',
+                        data: success
+                    })
+                }
+            });
+    })
+})
+app.post('/api/attack-update',(req, res)=>{
+    mongoose.connect(url, function(err){
+        if(err) throw err;
+        Patient.update(
+            { username: 'roy2' },
+            { $set: { "attack.$[element]" : {time: new Date(), location: 'outside'} } },
+            { multi: true,
+              arrayFilters: [ { "element.time": { $eq: new Date("2008-09-08T20:01:00.364Z") } } ]
+            },
+            function (error, success){
+                if (error) {
+                    console.log(error);
+                    return res.status(200).json({
+                        status: 'fail',
+                        data: patient
+                    })
+                } else{
+                    console.log(success);
+                    return res.status(200).json({
+                        status:'success',
+                        data: success
+                    })
+                }
+            });
+    })
+})
+
 
 
 app.listen(3000, () => console.log('clinic server running on port 3000!'))
