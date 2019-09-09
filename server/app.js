@@ -106,12 +106,9 @@ app.post('/api/attack-update',(req, res)=>{
     mongoose.connect(url, function(err){
         if(err) throw err;
         Patient.update(
-            { username: 'roy2' },
-            { $set: { "attack.$[element]" : {time: new Date(), location: 'outside'} } },
-            { multi: true,
-              arrayFilters: [ { "element.time": { $eq: new Date("2008-09-08T20:01:00.364Z") } } ]
-            },
-            function (error, success){
+            { username: 'zhou2', 'attack.time': new Date("2019-09-08T20:01:00.364Z") },
+            { $set: { "attack.$.time": new Date(), "attack.$.location": 'inside'}}
+            , function (error, success){
                 if (error) {
                     console.log(error);
                     return res.status(200).json({
