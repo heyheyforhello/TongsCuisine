@@ -5,7 +5,8 @@ import { DbService } from '../db.service';
 @Component({
   selector: 'app-patient-detail',
   templateUrl: './patient-detail.component.html',
-  styleUrls: ['./patient-detail.component.css']
+  styleUrls: ['./patient-detail.component.css'],
+  providers: [DbService]
 })
 export class PatientDetailComponent implements OnInit {
   public username = "";
