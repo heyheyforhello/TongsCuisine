@@ -26,7 +26,7 @@ app.get('/api/patient/', (req, res) => {
                 )
                 
                 return res.status(200).json({
-                    stutus: 'success',
+                    status: 'success',
                     patient: patients,
                 })
             })

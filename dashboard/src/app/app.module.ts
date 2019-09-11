@@ -7,12 +7,14 @@ import { RootComponent } from './root/root.component';
 import { ROUTING } from './app.routing';
 import { LoginComponent } from './login/login.component';
 import { patientListComponent } from './patientList/patientList.component';
+import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 
 @NgModule({
   declarations: [
     RootComponent,
     LoginComponent,
-    patientListComponent
+    patientListComponent,
+    PatientDetailComponent
   ],
   imports: [
     BrowserModule,
