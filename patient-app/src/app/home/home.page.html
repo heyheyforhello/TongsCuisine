@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card">
+      <img src="/assets/shapes.svg" alt="" />
+      <ion-card-header>
+        <ion-card-subtitle>HaRILab</ion-card-subtitle>
+        <ion-card-title>Welcome to Patient APP</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="logged">
+        <form (ngSubmit)="processForm()">
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">UUID</ion-label>
+          <ion-input type="text" [(ngModel)]="uuid" name="uuid" required></ion-input>
+        </ion-item>
+        <div class="ion-padding">
+          <ion-button expand="block" type="submit" class="ion-no-margin">Login</ion-button>
+        </div>
+      </form>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
