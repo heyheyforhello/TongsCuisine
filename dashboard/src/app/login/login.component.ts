@@ -22,7 +22,7 @@ export class LoginComponent {
       this.dbService.validateLogin(this.user).subscribe(result => {
         console.log('result is ', result);
         if(result['status'] === 'success') {
-          this.router.navigate(['/patientList']);
+          this.router.navigate(['/patient-list']);
         } else {
           alert('Wrong username password');
         }

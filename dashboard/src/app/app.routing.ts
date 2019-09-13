@@ -6,8 +6,9 @@ import { PatientDetailComponent } from './patient-detail/patient-detail.componen
 
 export const AppRoutes: Routes = [
   { path: '', component: LoginComponent, pathMatch:'full'},
-  { path: 'patientList', component: patientListComponent },
-  { path: 'patientDetail/:id', component: PatientDetailComponent}
+  { path: 'login', component: LoginComponent },
+  { path: 'patient-list', component: patientListComponent },
+  { path: 'patient-detail/:id', component: PatientDetailComponent}
 ];
 
 export const ROUTING: ModuleWithProviders = RouterModule.forRoot(AppRoutes);

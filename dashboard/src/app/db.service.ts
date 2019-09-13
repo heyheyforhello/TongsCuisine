@@ -25,6 +25,5 @@ export class DbService {
     return this.http.post('api/patient-details', {
       username: username
     });
-
   }
 }

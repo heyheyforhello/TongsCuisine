@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
 import { DbService } from '../db.service';
+
+class Attack {
+  date: String;
+  time: String;
+  location: String;
+}
 
 @Component({
   selector: 'app-patient-detail',
@@ -8,16 +16,90 @@ import { DbService } from '../db.service';
   styleUrls: ['./patient-detail.component.css']
 })
 export class PatientDetailComponent implements OnInit {
-  public username = "";
+  public username : String = "";
+  public attacks: Array<Attack> = [];
+
+  public displayAttacks: Array<Attack> = [];
+  public paginationLimit: number = 10;
+  public pageCount: number = 0;
+  public pageNumbers: Array<number> = [];
+
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartPlugins = [];
+
+  public barChartData: ChartDataSets[] = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+  ];
 
   constructor(private dbService: DbService, private route : ActivatedRoute) { }
 
-  ngOnInit() {
+  public ngOnInit(): void { }
+
+  public ngAfterViewInit(): void {
     this.username = this.route.snapshot.paramMap.get('id');
-    console.log(this.username);
     this.dbService.getPatientDetail(this.username).subscribe(res => {
-      console.log(res);
+      // TODO: Validate data
+      let items = res['data'][0]['attack'];
+      items = items.reverse();
+      items.forEach(item => {
+        let attack : Attack = {
+          date: "",
+          time: "",
+          location: ""
+        };
+        attack.location = item.location;
+        let time = item.time.split("T");
+        attack.time = time[1].split('.')[0];
+        attack.date = time[0];
+        this.attacks.push(attack);
+      });
+
+      // Generate pagination
+      this.pageCount = Math.floor(this.attacks.length / this.paginationLimit);
+      for(let i = 0; i <= this.pageCount; i++) {
+        this.pageNumbers.push(i);
+      }
+      this.initAttackList();
     });
   }
 
+  initAttackList() {    
+    let upperLimit = (1)*this.paginationLimit;
+    let lowerLimit = (0)*this.paginationLimit;
+    for(let i = 0; 
+      i < this.attacks.length 
+      && i < upperLimit
+      && i >= lowerLimit;
+      i++) {
+        this.displayAttacks.push(this.attacks[i]);
+    }
+  }
+
+  updateAttackList(pageNumber) {
+    document.querySelectorAll(".page-btn").forEach(element => {
+      element.classList.remove("btn-warning");
+    });
+    let selectedElement = document.querySelector(`#page-${pageNumber}`);
+    console.log(selectedElement);
+    selectedElement.classList.add("btn-warning");
+
+    this.displayAttacks = [];
+    let upperLimit = (pageNumber+1)*this.paginationLimit;
+    let lowerLimit = (pageNumber)*this.paginationLimit;
+    for(let i = pageNumber*this.paginationLimit; 
+        i < this.attacks.length 
+        && i < upperLimit
+        && i >= lowerLimit;
+        i++) {
+      this.displayAttacks.push(this.attacks[i]);
+    }
+  }
+
+  
 }

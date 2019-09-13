@@ -1,0 +1,9 @@
+.pagination {
+    text-decoration: underline;
+    cursor: pointer;
+    width: 100%;
+}
+
+.pagination button {
+    margin: 10px;
+}

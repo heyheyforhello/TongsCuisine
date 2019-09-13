@@ -1,1 +1,42 @@
-<p>patient-detail works!</p>
+<header class="header clearfix">
+  <nav>
+    <ul class="nav nav-pills float-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/patient-list" routerLinkActive="active">patientList <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <h3 class="text-muted">HaRILab</h3>
+</header>
+
+
+  <main role="main">
+
+    <div class="jumbotron">
+      <h1 class="display-3">Participant Detail</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Location</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let attack of displayAttacks">
+                <td>{{attack.date}}</td>
+                <td>{{attack.time}}</td>
+                <td>{{attack.location}}</td>
+            </tr>
+        </tbody>
+        <ul class="pagination" *ngIf="pageCount > 0">
+            <button class="btn btn-primary page-btn" *ngFor="let pageNumber of pageNumbers" (click)="updateAttackList(pageNumber)" id="page-{{pageNumber}}">
+                {{pageNumber+1}}
+            </button>
+        </ul>
+      </table>
+    </div>
+  </main>

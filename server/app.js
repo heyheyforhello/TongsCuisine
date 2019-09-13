@@ -28,7 +28,7 @@ app.get('/api/patient/', (req, res) => {
                 return res.status(200).json({
                     status: 'success',
                     patient: patients,
-                })
+                });
             })
     }
     )
@@ -59,12 +59,10 @@ app.post('/api/clinician/login', (req, res) => {
 app.post('/api/patient-details', (req, res) => {
     mongoose.connect(url, function(err){
         if(err) throw err;
-        //console.log(req.body.username);
         Patient.find({
             username : req.body.username
         },function(err, patient){
             if(err) throw err;
-            //console.log(patient);
             if(patient.length ===1){
                 return res.status(200).json({
                     status: 'success',
@@ -80,11 +78,12 @@ app.post('/api/patient-details', (req, res) => {
     })
 })
 app.post('/api/add-attack',(req, res)=>{
-    mongoose.connect(url, function(err){
+    mongoose.connect(url, function(err){``
         if(err) throw err;
         Patient.findOneAndUpdate(
             {username: req.body.username},
             {$push: {attack: req.body.attack}},
+            // {$push: {attack: {time: new Date(), location: req.body.attack.location}}},
             function (error, success){
                 if (error) {
                     console.log(error);
@@ -102,6 +101,7 @@ app.post('/api/add-attack',(req, res)=>{
             });
     })
 })
+
 app.post('/api/attack-update',(req, res)=>{
     mongoose.connect(url, function(err){
         if(err) throw err;
