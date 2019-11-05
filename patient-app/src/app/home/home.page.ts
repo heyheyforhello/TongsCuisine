@@ -18,7 +18,9 @@ export class HomePage {
   public logged: Boolean = false;
 
   constructor(private uniqueDeficeID: UniqueDeviceID, private httpClient : HttpClient, private storage: Storage) {
-    this.logged = this.storage.get('username') != undefined;
+    this.storage.get('username').then((res) => {
+      console.log(res);
+    });
     // Try get the UUID but failed
     uniqueDeficeID.get().then(uuid => console.log(uuid));
   }
@@ -27,10 +29,12 @@ export class HomePage {
     this.httpClient.post('/api/add-patients', 
       {username: this.username, uuid: this.uuid}
     ).subscribe(res => {
+      // set a username
       console.log(res);
+      this.storage.set('username', this.username);
     });
-    // set a username
-    this.storage.set('username', this.username);
+    
+    
   }
 
   public updateUsername(event) {

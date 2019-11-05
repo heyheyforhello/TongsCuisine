@@ -126,6 +126,45 @@ app.post('/api/attack-update',(req, res)=>{
     })
 })
 
+app.get('/api/patient-today', (req, res) => {
+    mongoose.connect(url, function(err) {
+        if(err) throw err;
+        Patient.find(
+            {username: req.body.username},
+            function (err, res) {
+                if(err) return res.status(200).json({status: 'fail'});
+                if(res.length == 1) {
+                    let patient = res[0];
+                    let attacks = patient.attack;
+                    let today = new Date();
+                    let recordToday = [];
+                }
+            }
+        )
+    })
+})
+
+app.post('/api/add-patients',(req, res)=>{
+    mongoose.connect(url,function(err){
+        if(err) throw err;
+        Patient.create({username: req.body.username, uuid: req.body.uuid},
+            function (error, success){
+                if (error) {
+                    return res.status(200).json({
+                        status: 'fail',
+                        error: error
+                    })
+                }
+                else{
+                    return res.status(200).json({
+                        status: 'success',
+                        data: success
+                    })
+                }
+            }
+        )
+    })
+})
 
 
 app.listen(3000, () => console.log('clinic server running on port 3000!'))

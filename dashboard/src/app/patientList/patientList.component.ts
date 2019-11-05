@@ -6,7 +6,7 @@ class Patient {
   username: String;
   attack: Array<Object>;
   alert: Boolean;
-  lastReport: Date;
+  lastReport: String;
 }
 
 @Component({
@@ -26,7 +26,8 @@ export class patientListComponent {
         // Get last record of attack
         let atkLength = patient.attack.length;
         let lastTime = new Date(patient.attack[atkLength-1]['time']);
-        patient.lastReport = lastTime;
+        patient.lastReport = new Date(patient.attack[atkLength-1]['time']).toUTCString();
+
         let today = new Date();
         lastTime.setDate(lastTime.getDate()+2);
         // Determine if record is two days ago

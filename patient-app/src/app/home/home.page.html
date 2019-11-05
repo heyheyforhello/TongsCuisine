@@ -16,8 +16,8 @@
         <ion-card-subtitle>HaRILab</ion-card-subtitle>
         <ion-card-title>Welcome to Patient APP</ion-card-title>
       </ion-card-header>
-      <ion-card-content *ngIf="logged">
-        <form (ngSubmit)="processForm()">
+      <ion-card-content>
+        <form (ngSubmit)="processForm()" *ngIf="!logged"> 
         <ion-item>
           <ion-label position="floating">Username</ion-label>
           <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
@@ -30,6 +30,7 @@
           <ion-button expand="block" type="submit" class="ion-no-margin">Login</ion-button>
         </div>
       </form>
+      <h1 *ngIf="logged">Hello, {{username}}</h1>
       </ion-card-content>
     </ion-card>
 </ion-content>
